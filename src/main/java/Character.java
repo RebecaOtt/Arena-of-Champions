@@ -6,7 +6,7 @@ public class Character {
     protected int life;
     protected int attack;
     protected int defense;
-    private List<String> inventory = new ArrayList<>();
+    private List<String> inventory;
 
     public Character(String name, int life, int attack, int defense, List<String> inventory) {
         this.name = name;
@@ -16,21 +16,37 @@ public class Character {
         this.inventory = inventory;
     }
 
-    public void strik(String characterTarget){
-
+//--------------------- METODOS
+    public void strik(Character characterTarget, boolean isDefending){
+        System.out.printf("%s atacou %s!\n", this.name, characterTarget.getName());
+        characterTarget.takeDamage(this.attack, isDefending); //manda o valor do ataque do personagem para o metodo tomarDano
     }
 
     public void defend(){
-
+        System.out.println("Defesa ativa, aguardando golpe...");
     }
 
-    public int takeDamage(int damage){
-        return getLife() - damage;
+    public void takeDamage(int damage, boolean isDefendig){
+        int damageFinal;
+        if (isDefendig){ //se estiver defendendo ele subtrai o dano levando em conta a defesa
+            damageFinal = damage - this.defense;
+        } else { //senão o dano é completamente aplicado
+            damageFinal = damage;
+        }
+        if (damageFinal < 0) damageFinal = 0; //dano não fica negativo, dando mais vida
+        this.life -= damageFinal;
+
+
+        System.out.printf("%s recebeu %d de dano! Vida atual: %d \n", this.name, damageFinal, this.life);
     }
 
     public boolean isAlive(){
         return getLife() > 0;
     }
+
+//    public void runIa(Character character, boolean isDefendig) {
+//        this.strik(character, isDefendig);
+//    }
 
     public String getName() {
         return name;
