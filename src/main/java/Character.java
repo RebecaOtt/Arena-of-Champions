@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Character {
@@ -7,6 +6,7 @@ public class Character {
     protected int attack;
     protected int defense;
     private List<String> inventory;
+    protected boolean isDefending = false;
 
     public Character(String name, int life, int attack, int defense, List<String> inventory) {
         this.name = name;
@@ -17,25 +17,26 @@ public class Character {
     }
 
 //--------------------- METODOS
-    public void strik(Character characterTarget, boolean isDefending){
+    public void strik(Character characterTarget){
         System.out.printf("%s atacou %s!\n", this.name, characterTarget.getName());
-        characterTarget.takeDamage(this.attack, isDefending); //manda o valor do ataque do personagem para o metodo tomarDano
+        characterTarget.takeDamage(this.attack); //chama o metodo de tomarDano, manda o valor do ataque do personagem para o metodo, onde faz os calculos lá
     }
 
     public void defend(){
+        this.isDefending = true; //avisa que ativou a defesa para no metodo de tomar dano levar isso em conta na subtracao da vida
         System.out.println("Defesa ativa, aguardando golpe...");
     }
 
-    public void takeDamage(int damage, boolean isDefendig){
+    public void takeDamage(int damage){
         int damageFinal;
-        if (isDefendig){ //se estiver defendendo ele subtrai o dano levando em conta a defesa
+        if (this.isDefending){ //se estiver defendendo ele subtrai o dano levando em conta a defesa
             damageFinal = damage - this.defense;
+            this.isDefending = false;
         } else { //senão o dano é completamente aplicado
             damageFinal = damage;
         }
         if (damageFinal < 0) damageFinal = 0; //dano não fica negativo, dando mais vida
-        this.life -= damageFinal;
-
+        this.life -= damageFinal; //atuliza a vida
 
         System.out.printf("%s recebeu %d de dano! Vida atual: %d \n", this.name, damageFinal, this.life);
     }
@@ -44,9 +45,9 @@ public class Character {
         return getLife() > 0;
     }
 
-//    public void runIa(Character character, boolean isDefendig) {
-//        this.strik(character, isDefendig);
-//    }
+    public void runIa(Character character) {
+        this.strik(character);
+    }
 
     public String getName() {
         return name;

@@ -9,11 +9,9 @@ public class Main {
         int battleCount = 0;
         ArrayList<String> chosenEnemy = new ArrayList<>(List.of("Guerreiro", "Mago", "Arqueiro"));
 
-        boolean isDefendig = false;
-
         System.out.println("Bem-vindo à Arena dos Campeôes! Digite seu nome: ");
         String name = scanner.next();
-        Character character = new Character(name, 100, 15, 10, null);
+        Character character = new Character(name, 100, 15, 12, null);
 
         do {
             System.out.println("Escolha sua classe: 1-Guerreiro | 2-Mago | 3-Arqueiro");
@@ -38,10 +36,9 @@ public class Main {
                         System.out.println("Opção inválida, tente novamente!");
                     } else {
                         if (actionOption == 1) {
-                            character.strik(characterTarget, false);
+                            character.strik(characterTarget);
                         } else if (actionOption == 2) {
                             character.defend();
-                            isDefendig = true;
                         }
 
                         if (characterTarget.getLife() <= 0) {
@@ -50,7 +47,7 @@ public class Main {
                         }
 
                         System.out.println("Turno do inimigo....");
-                        characterTarget.strik(character, isDefendig);
+                        characterTarget.runIa(character);
                     }
 
                 }while (character.getLife() > 0 && characterTarget.getLife() > 0);

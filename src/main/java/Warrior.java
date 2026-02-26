@@ -22,33 +22,19 @@ public class Warrior extends Character{
     public static ArrayList<Integer> listDefenseWarrior = new ArrayList<>(
             List.of(3, 5, 6)
     );
+//quero adicionar um inventário aleatorio para quando morrer ter a opção de oegar os itens do inimigo, NÃO ESQUECER!!
 
-//    @Override
-//    public void strik(Character character){
-//        int damage = this.attack - character.getDefense();
-//        if (damage < 0) damage = 0;
-//
-//        int lifeNew = character.getLife() - damage;
-//        character.setLife(lifeNew);
-//        System.out.printf("Inimigo atacou e causou %d de dano!\n", damage);
-//        System.out.printf("%s, sua vida restante: %d", character.getName(), character.getLife());
-//    }
-//
-//    @Override
-//    public void defend(int attackEnemy){
-//        int damage = attackEnemy - this.defense;
-//        setLife(this.life-damage);
-//        System.out.printf("Você defendeu! recebeu %d de dano, sua vida atual: %d\n", damage, getLife());
-//    }
-//
-////    @Override
-////    public void runIa(Character character) {
-////        double chance = Math.random();
-////        if (chance < 0.9) {
-////            this.strik(character);
-////        } else {
-////
-////        }
-////    }
+    @Override
+    public void runIa(Character character) {
+        double chance = Math.random(); //random para sortear o que o inimigo vai fazer
+
+        if (chance < 0.9) { //isso faz ele atacar muito mais que defender, por ser guerreiro vai ser maior o ataque
+            System.out.println("Atacando!");
+            this.strik(character);
+        } else {
+            System.out.println("Defendendo!");
+            this.defend();
+        }
+    }
 
 }
