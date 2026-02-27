@@ -12,7 +12,7 @@ public class Archer extends Character{
     );
 
     public static ArrayList<Integer> listLifeArcher = new ArrayList<>(
-            List.of(100, 110, 120)
+            List.of(88, 98, 108)
     );
 
     public static ArrayList<Integer> listAttackArcher = new ArrayList<>(

@@ -12,8 +12,7 @@ public class Wizard extends Character{
     );
 
     public static ArrayList<Integer> listLifeWizard = new ArrayList<>(
-            List.of(90, 100, 105)
-    );
+            List.of(85, 95, 105));
 
     public static ArrayList<Integer> listAttackWizard = new ArrayList<>(
             List.of(4,10,20)

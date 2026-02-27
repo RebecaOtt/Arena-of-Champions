@@ -36,7 +36,7 @@ public class Character {
             damageFinal = damage;
         }
         if (damageFinal < 0) damageFinal = 0; //dano não fica negativo, dando mais vida
-        this.life -= damageFinal; //atuliza a vida
+        if ((this.life -= damageFinal) < 0) this.life = 0; //atuliza a vida, não deixa aparecer negativo
 
         System.out.printf("%s recebeu %d de dano! Vida atual: %d \n", this.name, damageFinal, this.life);
     }
