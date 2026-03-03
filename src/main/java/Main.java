@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
 
         System.out.println("Bem-vindo à Arena dos Campeôes! Digite seu nome: ");
         String name = scanner.next();
-        Character character = new Character(name, 100, 15, 12, null); //criando personagem
+        Character character = new Character(name, 1000, 145, 12, new ArrayList<>()); //criando personagem
 
 //        Looping da arena
         do {
@@ -57,6 +58,7 @@ public class Main {
                         System.out.printf("Iniciando %d° turno! \n", battleCount);
                         System.out.printf("Sua vida: %d | Vida do inimigo: %d |  Ataque inimigo: %d \n", character.getLife(), characterTarget.getLife(), characterTarget.attack);
 
+
                         System.out.println("Escolha sua ação: 1- Atacar | 2- Defender | 3- Ver inventário");
                         int actionOption = scanner.nextInt();
 
@@ -67,10 +69,31 @@ public class Main {
                                 character.strik(characterTarget);
                             } else if (actionOption == 2) {
                                 character.defend();
+                            } else {
+                                showInventary(character);
+                                if (!character.getInventory().isEmpty()){
+                                    System.out.println("Digite o item escolhido:");
+                                    int optionItem = scanner.nextInt();
+                                    character.useItem(optionItem);
+                                }
                             }
 
                             if (characterTarget.getLife() <= 0) {
+                                System.out.println("DEBUG: Itens no inimigo: " + characterTarget.getInventory().size());
                                 System.out.println("O inimigo foi derrotado!");
+                                characterTarget.getInventory().stream()
+                                        .forEach(item -> {
+                                            boolean containsItem = character.getInventory().stream()
+                                                            .anyMatch(myItem -> myItem.getDescricao().equalsIgnoreCase(item.getDescricao()));
+                                            if (!containsItem) {
+                                                System.out.println("Você saqueou: " + item.getDescricao());
+                                                character.getInventory().add(item);
+                                            } else {
+                                                System.out.println("Você já possui " + item.getDescricao());
+                                            }
+                                        });
+                                characterTarget.getInventory().clear();
+                                character.setQuantityUsedItem(0);
                                 break;
                             }
 
@@ -83,11 +106,26 @@ public class Main {
             }
 
         }while (character.isAlive());
-        System.out.printf("%s, você morreu... Jogo encerrado", name);
 
     }
 
     public static void startGame() {
+
+    }
+
+    public static void displayStatus(){
+
+    }
+
+    public static void playerTurn(){
+
+    }
+
+    public static void enemyTurn(){
+
+    }
+
+    public static void endOfGame(){
 
     }
 
@@ -108,7 +146,12 @@ public class Main {
 
                 // Removo depois de salvar nas variáveis
                 Warrior.listNamesWarrior.remove(index);
-                newEnemy = new Warrior(name, life, attack, defense, null);
+                newEnemy = new Warrior(name, life, attack, defense, new ArrayList<>());
+
+                if (random.nextDouble() < 0.5){
+                    newEnemy.generateItem();
+                }
+            
             }
         } else if (option == 1) {
             if (!Wizard.namesListWizard.isEmpty()) {
@@ -121,7 +164,11 @@ public class Main {
 
                 Wizard.namesListWizard.remove(index);
 
-                newEnemy = new Wizard(name, life, attack, defense, null);
+                newEnemy = new Wizard(name, life, attack, defense, new ArrayList<>());
+
+                if (random.nextDouble() < 0.6){
+                    newEnemy.generateItem();
+                }
             }
             
         } else {
@@ -135,7 +182,11 @@ public class Main {
 
                 Archer.nameslistArcher.remove(index);
 
-                newEnemy = new Archer(name, life, attack, defense, null);
+                newEnemy = new Archer(name, life, attack, defense, new ArrayList<>());
+
+                if (random.nextDouble() < 0.7){
+                    newEnemy.generateItem();
+                }
             }
         }
         return newEnemy;
@@ -148,6 +199,15 @@ public class Main {
         }
         else {
             return false;
+        }
+    }
+
+    public static void showInventary(Character character){
+        if (character.getInventory().isEmpty()){
+            System.out.println("Inventário vazio");
+        } else {
+            IntStream.range(0, character.getInventory().size())
+                    .forEach(item -> System.out.println(item + "- " + character.getInventory().get(item).getDescricao()));
         }
     }
 }

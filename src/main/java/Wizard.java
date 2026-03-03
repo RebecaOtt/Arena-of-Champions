@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Wizard extends Character{
 
-    public Wizard(String name, int life, int attack, int defense, List<String> inventory) {
+    public Wizard(String name, int life, int attack, int defense, List<InventaryNames> inventory) {
         super(name, life, attack, defense, inventory);
     }
 

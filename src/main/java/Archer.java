@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Archer extends Character{
 
-    public Archer(String name, int life, int attack, int defense, List<String> inventory) {
+    public Archer(String name, int life, int attack, int defense, List<InventaryNames> inventory) {
         super(name, life, attack, defense, inventory);
     }
 
