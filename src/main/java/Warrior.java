@@ -22,8 +22,8 @@ public class Warrior extends Character{
     public static ArrayList<Integer> listDefenseWarrior = new ArrayList<>(
             List.of(3, 5, 6)
     );
-//quero adicionar um inventário aleatorio para quando morrer ter a opção de oegar os itens do inimigo, NÃO ESQUECER!!
 
+//-----sobreescrevendo o metodo
     @Override
     public void runIa(Character character) {
         double chance = Math.random(); //random para sortear o que o inimigo vai fazer

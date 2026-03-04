@@ -3,7 +3,7 @@ public enum InventaryNames {
     BANDAGENS("Bandagens");
 
 
-    private String descricao;
+    private final String descricao;
     InventaryNames(String descricao){
         this.descricao = descricao;
     }

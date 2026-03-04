@@ -22,7 +22,7 @@ public class Character {
 //--------------------- METODOS
     public void strik(Character characterTarget){
         System.out.printf("%s atacou %s!\n", this.name, characterTarget.getName());
-        characterTarget.takeDamage(this.attack); //chama o metodo de tomarDano, manda o valor do ataque do personagem para o metodo, onde faz os calculos lá
+        characterTarget.takeDamage(this.attack); //chamo o metodo de tomarDano, mandando o valor do ataque do personagem para o metodo, onde faz os calculos lá
     }
 
     public void defend(){
@@ -50,69 +50,44 @@ public class Character {
 
     public void generateItem() {
         InventaryNames[] everbodyItem = InventaryNames.values(); //pega todos os valores do Enum
-        InventaryNames itemRandom = everbodyItem[new Random().nextInt(everbodyItem.length)]; //escolhe de forma aletória
+        InventaryNames itemRandom = everbodyItem[new Random().nextInt(everbodyItem.length)]; //escolhe de forma aletória, o index é o tamanho dos valores
         this.inventory.add(itemRandom); //adiciona no inventário
     }
 
     public void useItem(int index){
         if (quantityUsedItem >= 3){
             System.out.println("Só é possivel usar 3 vezes por jogada");
-        }
+        } else {
+            if (index >=0 && index< inventory.size()){ //valido index
+                InventaryNames usedItem = inventory.get(index); //pego o valor escolhido
 
-        if (index >=0 && index< inventory.size()){
-            InventaryNames usedItem = inventory.get(index);
-
-            if (usedItem == InventaryNames.POCAO_DE_CURA){
-                this.life += 20;
-                System.out.println("Poção de cura usada e recuperou 20 de vida");
-                inventory.remove(index);
-                this.quantityUsedItem++;
-            } else if (usedItem == InventaryNames.BANDAGENS) {
-                this.life +=10;
-                System.out.println("Bandagem usada e recuperou 10 de vida");
-                inventory.remove(index);
-                this.quantityUsedItem++;
-            } else {
-                System.out.println("Item inválido");
+                if (usedItem == InventaryNames.POCAO_DE_CURA){
+                    this.life += 20; //se for poção de cura aumenta a 20
+                    System.out.println("Poção de cura usada e recuperou 20 de vida");
+                    inventory.remove(index); //remove depois de usar
+                    this.quantityUsedItem++; //soma a quantidade de vezes usada os itens
+                } else if (usedItem == InventaryNames.BANDAGENS) {
+                    this.life +=10;
+                    System.out.println("Bandagem usada e recuperou 10 de vida");
+                    inventory.remove(index);
+                    this.quantityUsedItem++;
+                } else {
+                    System.out.println("Item inválido");
+                }
             }
         }
-
     }
 
     public void runIa(Character character) {
-        this.strik(character);
+        this.strik(character); //apenas ataca
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getLife() {
         return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
     }
 
     public List<InventaryNames> getInventory() {
@@ -120,14 +95,6 @@ public class Character {
             this.inventory = new ArrayList<>();
         }
         return inventory;
-    }
-
-    public void setInventory(List<InventaryNames> inventory) {
-        this.inventory = inventory;
-    }
-
-    public int getQuantityUsedItem() {
-        return quantityUsedItem;
     }
 
     public void setQuantityUsedItem(int quantityUsedItem) {
