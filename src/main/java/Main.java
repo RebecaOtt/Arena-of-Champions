@@ -71,7 +71,7 @@ public class Main {
 
         System.out.println("Bem-vindo à Arena dos Campeôes! Digite seu nome: ");
         String name = scanner.next();
-        return new Character(name, 1000, 145, 12, new ArrayList<>()); //criando personagem
+        return new Character(name, 100, 15, 12, new ArrayList<>()); //criando personagem
     }
 
     public static void displayStatus(int battleCount, Character character, Character characterTarget){
@@ -108,13 +108,16 @@ public class Main {
                 System.out.println("O inimigo foi derrotado!");
                 characterTarget.getInventory()
                         .forEach(item -> { //ve todos os itens do inventario do inimigo
-                            boolean containsItem = character.getInventory().stream()
-                                    .anyMatch(myItem -> myItem.getDescricao().equalsIgnoreCase(item.getDescricao())); //se tiver as mesmas descrições retorna true
-                            if (!containsItem) {
-                                System.out.println("Você saqueou: " + item.getDescricao());
-                                character.getInventory().add(item); //se não contem, saqueia o item e adiciona no inventário do persoagem
+                            Optional<InventaryNames> existingItem = character.getInventory().stream()
+                                    .filter(myItem -> myItem.getDescricao().equalsIgnoreCase(item.getDescricao())) //garante se tem no inventario
+                                    .findFirst();
+                            if (existingItem.isPresent()) {
+                                existingItem.get().accumulateItems(); //se tivr ele vai acumular
+                                System.out.printf("Saqueado, tendo %dx %s\n", existingItem.get().getQuantity(), item.getDescricao());
                             } else {
-                                System.out.println("Você já possui " + item.getDescricao());
+                                character.getInventory().add(item); //senão ele adiciona no inventário e mostra 1x na quantidade
+                                item.setQuantity(1);
+                                System.out.printf("Você saqueou %s\n", item.getDescricao());
                             }
                         });
                 characterTarget.getInventory().clear(); //limpa inventário do inimigo
@@ -132,8 +135,8 @@ public class Main {
     public static void endOfGame(Character character, List<String> enemysExistence){
         if (character.getLife() <= 0){
             System.out.println("Você foi derrotado.... Fim de jogo");
-        } else if (enemysExistence.isEmpty()) { //se tiver vazio a lista de nomes de inimigos existentes
-            System.out.println("Parabéns!! Você derrotou todas as arenas");
+        } else if (enemysExistence.isEmpty()) {
+            System.out.println("Fim de jogo!");
         }
 
     }
@@ -211,7 +214,7 @@ public class Main {
             System.out.println("Inventário vazio");
         } else {
             IntStream.range(0, character.getInventory().size()) //para mostrar o numero do lado do item no inventario, começa de 0 e até o tamanho da lista
-                    .forEach(item -> System.out.println(item + "- " + character.getInventory().get(item).getDescricao())); //mensagem de cada item
+                    .forEach(item -> System.out.println(item + "- "+ character.getInventory().get(item).getQuantity() + "x" + character.getInventory().get(item).getDescricao())); //mensagem de cada item
         }
     }
 }

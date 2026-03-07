@@ -64,12 +64,22 @@ public class Character {
                 if (usedItem == InventaryNames.POCAO_DE_CURA){
                     this.life += 20; //se for poção de cura aumenta a 20
                     System.out.println("Poção de cura usada e recuperou 20 de vida");
-                    inventory.remove(index); //remove depois de usar
+
+                    usedItem.decreateItems(); //diminiu a quantidade a aparecer no x2 poção
+                    if (usedItem.getQuantity() == 0){
+                        inventory.remove(index); //remove depois de zerar
+                    }
+
                     this.quantityUsedItem++; //soma a quantidade de vezes usada os itens
                 } else if (usedItem == InventaryNames.BANDAGENS) {
                     this.life +=10;
                     System.out.println("Bandagem usada e recuperou 10 de vida");
-                    inventory.remove(index);
+
+                    usedItem.decreateItems(); //diminiu a quantidade a aparecer no x2 poção
+                    if (usedItem.getQuantity() == 0){
+                        inventory.remove(index); //remove depois de zerar
+                    }
+
                     this.quantityUsedItem++;
                 } else {
                     System.out.println("Item inválido");
